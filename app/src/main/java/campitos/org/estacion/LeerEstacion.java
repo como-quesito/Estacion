@@ -15,6 +15,8 @@ public class LeerEstacion {
     public String leer()throws Exception{
 
         String informacion="nada";
+        boolean encontrada=false;
+
         URL url=new URL("http://www.weatherlink.com/user/sierraguadalupe/index.php?view=summary&headers=0");
         HttpURLConnection con= (HttpURLConnection) url.openConnection();
          InputStreamReader in= new InputStreamReader(con.getInputStream());
@@ -24,10 +26,24 @@ public class LeerEstacion {
         StringBuilder builder=new StringBuilder();
         int ch;
         int lineas=0;
-        while (reader.readLine()!=null){
-            lineas++;
+        String lineaActual;
+        String lineaBuscada="nada";
+        while ((lineaActual=reader.readLine())!=null){
+
+
+            if(encontrada && lineas<=1){
+                lineas++;
+                lineaBuscada=lineaActual;
+            }
+            if(lineaActual.contains("Outside Temp")){
+                encontrada=true;
+                System.out.println("encontrada!!!");
+
+
+            }
         }
         informacion="Lineas:"+lineas;
+        System.out.println("maloooo"+lineaBuscada);
         return informacion;
     }
 }
